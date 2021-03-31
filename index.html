@@ -1,0 +1,136 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="style.css">
+    <title>Local storage</title>
+</head>
+<body>
+    <div class="section">
+        <div class="container">
+            <h1>Shopping list App</h1>
+            <div class="text-centered">
+                <a href="" class="restart-link" id="reset">Reiniciar</a>
+            </div>
+            <div class="box">
+                <form id="form">
+                    <div class="input">
+                        <input type="text" placeholder="Nombre producto" id="name" required>
+                        <input type="number" id="price" placeholder="s./" min="0" step="0.1" value="1" required>
+                        <button>Agregar</button>
+                    </div>
+                </form>
+                <table id="table">
+                    <thead>
+                        <tr>
+                            <th width="1">#</th>
+                            <th>Producto</th>
+                            <th width="1">s./</th>
+                            <th width="35"></th>
+                        </tr>
+                    </thead>
+                </table>
+            </div>
+
+            <div class="footer">
+                <h4>Total = s./ <span id="total">0</span></h4>
+            </div>
+        </div>
+    </div>
+
+    <script>
+
+
+        var productos = [];
+        const reset = document.getElementById('reset');
+        const name = document.getElementById('name');
+        const price = document.getElementById('price');
+        const form = document.getElementById('form');
+        const table = document.getElementById('table');
+        const total = document.getElementById('total');
+        let sumaTotal = 0;
+  
+        window.onload = function() {
+            getProducts();
+        }
+
+        function getProducts() {
+            if (localStorage.getItem('productos')) {
+                productos = JSON.parse(localStorage.getItem('productos'))
+
+                // Reinicio la suma total
+                sumaTotal = 0;
+                
+                // Elimino cuerpo de la tabla (tbody) para crearlo de nuevo
+                table.lastChild.remove();
+
+                // Creo nueamente el cuerpo de la tabla
+                let tbody = document.createElement('tbody');
+                table.append(tbody)
+
+                // Creo las filas para cada producto iterado
+                productos.forEach((item, index) => {
+                    let tr = document.createElement('tr');
+                    tr.innerHTML = `
+                        <td>${index + 1}</td>
+                        <td>${item.name}</td>
+                        <td>${item.price}</td>
+                        <td><a href="javascript:;" onclick="deleteItem(${index})" id="item-${item.id}"><img class="del-icon" src="delete.png" alt="Delete icon"/></a></td>
+                    `;
+                    tbody.append(tr);
+                    sumaTotal += parseFloat(item.price)
+                })
+                total.innerText = sumaTotal;
+            }
+
+            // Comprobar si hay productos para mostrar/ocultar boton reset
+            gestionarReset();
+        }
+
+        
+        function addProduct() {
+            
+            // 1. Se guarda el nuevo item a la variable productos
+            productos.push(
+                {
+                    id: Math.floor(Math.random() * 1000),
+                    name: name.value,
+                    price: price.value
+                }
+            )
+            
+            // 2. Guardo el nuevo item en localStorage
+            localStorage.setItem('productos', JSON.stringify(productos))
+            
+            // 3. LLamo a la funcion que carga los productos para que se re-genere la tabla
+            getProducts();
+        }
+
+        form.addEventListener('submit', function(event) {
+            event.preventDefault();
+            addProduct();
+            name.value = ''
+            price.value = 1
+        });
+   
+        // Borrar item
+        function deleteItem(index) {
+            productos.splice(index, 1);
+            localStorage.setItem('productos', JSON.stringify(productos))
+            getProducts();
+        }
+
+        reset.addEventListener('click', function(event) {
+            event.preventDefault();
+            localStorage.clear();
+            location.reload()
+        });
+
+        function gestionarReset() {
+            productos.length == 0 ? reset.style.opacity = "0" : reset.style.opacity = "1";
+        }
+    </script>
+</body>
+</html>

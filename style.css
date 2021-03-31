@@ -1,0 +1,121 @@
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+html {
+    background-color: #f8f8f8;
+}
+body {
+    font-family: helvetica;
+}
+
+.section {
+    padding: 5% 0;
+}
+.container {
+    width: 98%;
+    margin: auto;
+    max-width: 600px;
+}
+.box {
+    background-color: #fff;
+    padding: 20px;
+    box-shadow: 0 10px 20px -5px rgba(0,0,0,.1);
+    border-radius: 5px;
+}
+h1 {
+    margin-bottom: 30px;
+    text-align: center;
+    font-size: 24px;
+}
+table {
+    width: 100%;
+    border-collapse: collapse;
+    text-align: left;
+    background-color: #fff;
+}
+th, td {
+    padding: 7px;
+    border: solid 1px #e3e3e3;
+}
+.input {
+    margin-bottom: 20px;
+    display: flex;
+    gap: 5px;
+}
+.input button {
+    height: 50px;
+    border: none;
+    padding: 0px 20px;
+    text-transform: uppercase;
+    background-color: rgb(27, 143, 245);
+    color: white;
+    cursor: pointer;
+    border-radius: 3px;
+    font-size: 14px;
+}
+input {
+    width: 100%;
+    padding: 5px 10px;
+    height: 50px;
+    border: solid 1px rgb(27, 143, 245);
+    border-radius: 3px;
+    font-size: 18px;
+}
+
+#price {
+    width: 80px;
+    text-align: center;
+}
+
+.del-icon {
+    width: 20px;
+}
+
+.added {
+    animation: 1s linear 1s 1 added;
+}
+
+.footer {
+    padding-top: 30px;
+    text-align: center;
+}
+
+.footer  h3 {
+    font-size: 20px;
+}
+
+.text-centered {
+    text-align: center;
+}
+
+.restart-link {
+    display: inline-block;
+    margin-bottom: 10px;
+    text-decoration: none;
+    color: gray;
+}
+
+@media (max-width: 420px) {
+    html {
+        padding-bottom: 50px;
+    }
+    button {
+        position: fixed;
+        bottom: 0;
+        left: 0;
+        width: 100%;
+        border: solid 3px #fff !important;
+        box-shadow: 0 -5px 5px -3px rgba(0,0,0,.1);
+    }
+}
+
+@keyframes added {
+    from {
+        background-color: rgb(170, 224, 255);
+    }
+    to {
+        background-color: transparent;
+    }
+}
